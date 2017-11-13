@@ -1,0 +1,52 @@
+---
+title: "Biota Google Scholar"
+author: "Fábio Campos"
+date: "13 de novembro de 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(scholar)
+library(dplyr)
+
+### ID of Biota Program
+id = 'cNjmGrIAAAAJ'
+
+### Number of articles
+num_articles = get_num_articles(id)
+### Dataframe of publications
+df = get_publications(id, cstart = 0, pagesize = 100, flush = FALSE)
+```
+
+
+### Total de Publicações do Programa (1998 - 2016)
+
+```{r}
+pubs = count(df, year)
+sum(pubs$n)
+```
+
+### Série Histórica das Publicações (1998-2016)
+
+```{r}
+### Publications analysis
+summary(pubs$n)
+boxplot(pubs$n)
+```
+
+```{r}
+x = pubs$n
+barplot(pubs$n, main = "Publicações do Biota (1998-2016)", xlab = "Anos", ylab = "Quantidade", col = "red", ylim = c(0,350), names.arg = pubs$year, cex.names = .7)
+```
+
+### Principais Revistas das publicações do BIOTA (1998-2016)
+
+```{r}
+journals = count(df, journal)
+topjournals = filter(journals, n > 10)
+dotchart(topjournals$n,labels=topjournals$journal,cex=.7,
+   main="Revistas com maior número de publicações do programa Biota (1998 - 2016)",
+   xlab="Número de Publicações")
+```
+
