@@ -1,3 +1,4 @@
+install.packages("scholar")
 library(scholar)
 library(dplyr)
 
@@ -12,7 +13,7 @@ num_articles
 num_journals = get_num_distinct_journals(id)
 
 ### Dataframe of publications
-df = get_publications(id, cstart = 0, pagesize = 100, flush = FALSE)
+df = get_publications(id, cstart = 0, flush = FALSE)
 str(df)
 names(df)
 head(df)
